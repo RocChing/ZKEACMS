@@ -13,6 +13,7 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ZKEACMS.WidgetTemplate;
+using ZKEACMS.Route;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
@@ -31,6 +32,7 @@ namespace ZKEACMS
         IApplicationFeatureProvider<ViewsFeature>
     {
         private const string ControllerTypeNameSuffix = "Controller";
+
         public Assembly Assembly { get; set; }
 
         public abstract IEnumerable<RouteDescriptor> RegistRoute();
@@ -52,6 +54,11 @@ namespace ZKEACMS
         }
         static Dictionary<Type, string> pluginPathCache = new Dictionary<Type, string>();
         static Dictionary<Type, string> pluginNameCache = new Dictionary<Type, string>();
+        public static HashSet<string> ActiveWidgetTemplates
+        {
+            get;
+            set;
+        }
         public string CurrentPluginPath
         {
             get;
@@ -93,12 +100,12 @@ namespace ZKEACMS
             var menus = this.AdminMenu();
             if (menus != null)
             {
-                foreach (var item in menus)
-                {
-                    item.PluginName = this.Name;
-                    AdminMenus.Menus.Add(item);
-                }
-
+                //foreach (var item in menus)
+                //{
+                //    item.PluginName = this.Name;
+                //    AdminMenus.Menus.Add(item);
+                //}
+                AdminMenus.PluginMenu.Add(menus);
             }
             this.SetupResource();
             var permissions = this.RegistPermission();
@@ -191,7 +198,6 @@ namespace ZKEACMS
 
             return true;
         }
-
         public IEnumerable<string> GetReferencePaths()
         {
             if (Assembly.IsDynamic)
@@ -210,6 +216,18 @@ namespace ZKEACMS
         #region Viewfeature
         public virtual void PopulateFeature(IEnumerable<ApplicationPart> parts, ViewsFeature feature)
         {
+            if (ActiveWidgetTemplates == null)
+            {
+                ActiveWidgetTemplates = new HashSet<string>();
+                foreach (var item in feature.ViewDescriptors)
+                {
+                    string name = Path.GetFileName(item.RelativePath);
+                    if (name.StartsWith("Widget.") && !ActiveWidgetTemplates.Contains(name))
+                    {
+                        ActiveWidgetTemplates.Add(name);
+                    }
+                }
+            }
             var knownIdentifiers = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var attributes = GetViewAttributesLegacy(Assembly);
             foreach (var item in attributes)
@@ -217,6 +235,12 @@ namespace ZKEACMS
                 var descriptor = new CompiledViewDescriptor(item);
                 if (knownIdentifiers.Add(descriptor.RelativePath))
                 {
+                    string name = Path.GetFileName(descriptor.RelativePath);
+                    if (name.StartsWith("Widget.") && !ActiveWidgetTemplates.Contains(name))
+                    {
+                        ActiveWidgetTemplates.Add(name);
+                    }
+
                     feature.ViewDescriptors.Add(descriptor);
                 }
             }

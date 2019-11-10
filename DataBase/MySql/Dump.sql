@@ -24,7 +24,8 @@ CREATE TABLE `ApplicationSetting` (
 /*!40000 ALTER TABLE `ApplicationSetting` DISABLE KEYS */;
 INSERT INTO `ApplicationSetting` VALUES
 ('ExpandAllPage','true',NULL,NULL,1,'admin','ZKEASOFT','2018-04-11 17:01:47.230','admin','ZKEASOFT','2018-04-11 17:01:47.233'),
-('Favicon','~/favicon.ico',NULL,NULL,NULL,'admin','ZKEASOFT','2017-03-19 20:57:33.627','admin','ZKEASOFT','2017-03-19 20:57:33.627');
+('Favicon','~/favicon.ico',NULL,NULL,NULL,'admin','ZKEASOFT','2017-03-19 20:57:33.627','admin','ZKEASOFT','2017-03-19 20:57:33.627'),
+('OuterChainPicture','false',NULL,NULL,1,NULL,NULL,'2019-07-31 12:09:28.430',NULL,NULL,'2019-07-31 12:09:28.430');
 /*!40000 ALTER TABLE `ApplicationSetting` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `Article`;
@@ -811,7 +812,7 @@ CREATE TABLE `CMS_Page` (
 /*!40000 ALTER TABLE `CMS_Page` DISABLE KEYS */;
 INSERT INTO `CMS_Page` VALUES
 ('068c85b8de8744e7a81b1d1010583308','9d84599edb2443439a53e8d906815c8f',1,'#','产品',0,'~/product','0846a33e56bf45d5aae602ef40d87444','产品',NULL,4,NULL,1,0,'2016-05-15 20:56:40.843',NULL,NULL,NULL,NULL,'admin','ZKEASOFT','2016-05-15 20:56:40.843','admin','ZKEASOFT','2016-05-15 20:56:40.843'),
-('0880a4dfdc184ff99b88c88325716d1b',NULL,0,'#','主页',1,'~/index','1dae90cf6a8547538cc0c369b9943c01','欢迎使用ZKEACMS进行创作',NULL,1,NULL,1,1,'2017-10-15 18:11:36.267',NULL,NULL,NULL,NULL,'admin',NULL,'2015-08-31 13:27:16.110','admin','ZKEASOFT','2017-10-15 18:11:36.267'),
+('0880a4dfdc184ff99b88c88325716d1b',NULL,0,'#','主页',1,'~/index','1dae90cf6a8547538cc0c369b9943c01','欢迎使用ZKEACMS进行创作',NULL,1,NULL,1,1,'2017-10-15 18:11:36.000',NULL,NULL,'[]','[]','admin',NULL,'2015-08-31 13:27:16.000','admin','ZKEASOFT','2019-08-01 16:52:01.177'),
 ('1c93b61690ce49d7af8e1ea45ac58eb9',NULL,0,'#','联系我们',0,'~/contact','1dae90cf6a8547538cc0c369b9943c01',' 联系我们',NULL,7,NULL,1,1,'2017-03-19 21:05:28.837',' 联系我们',' 联系我们',NULL,NULL,'admin','ZKEASOFT','2017-03-19 21:03:50.763','admin','ZKEASOFT','2017-03-19 21:05:16.280'),
 ('4b889b430aa44517bbad38a57c745cc5','a8d73e29b1eb4b7ea43420e2b6bf2c1b',1,'9d84599edb2443439a53e8d906815c8f','产品详细',0,'~/product/detail','0846a33e56bf45d5aae602ef40d87444',NULL,NULL,1,NULL,1,0,'2016-03-10 23:24:38.777',NULL,NULL,NULL,NULL,'admin','ZKEASOFT','2016-03-10 23:24:38.780','admin','ZKEASOFT','2016-03-10 23:24:38.780'),
 ('50fa3579e7434555a22f095dcb4ea35e','0880a4dfdc184ff99b88c88325716d1b',1,'#','主页',1,'~/index','1dae90cf6a8547538cc0c369b9943c01','欢迎使用ZKEACMS进行创作',NULL,1,NULL,1,0,'2017-10-15 18:11:36.273',NULL,NULL,NULL,NULL,'admin','ZKEASOFT','2017-10-15 18:11:36.277','admin','ZKEASOFT','2017-10-15 18:11:36.810'),
@@ -2399,6 +2400,7 @@ INSERT INTO `Language` VALUES
 ('Order@Total','zh-CN','总价','Order','EntityProperty'),
 ('Order@TrackingNumber','zh-CN','快递单号','Order','EntityProperty'),
 ('Order@UserId','zh-CN','登录名','Order','EntityProperty'),
+('PageAsset@Url','zh-CN','Url','PageAsset','EntityProperty'),
 ('PageEntity@ActionType','zh-CN','ActionType','PageEntity','EntityProperty'),
 ('PageEntity@Content','zh-CN','Content','PageEntity','EntityProperty'),
 ('PageEntity@CreateBy','zh-CN','CreateBy','PageEntity','EntityProperty'),
@@ -2447,12 +2449,14 @@ INSERT INTO `Language` VALUES
 ('PageEntity@Script','en-GB','Script','PageEntity','EntityProperty'),
 ('PageEntity@Script','en-US','Script','PageEntity','EntityProperty'),
 ('PageEntity@Script','zh-CN','脚本','PageEntity','EntityProperty'),
+('PageEntity@Scripts','zh-CN','脚本','PageEntity','EntityProperty'),
 ('PageEntity@Status','en-GB','Status','PageEntity','EntityProperty'),
 ('PageEntity@Status','en-US','Status','PageEntity','EntityProperty'),
 ('PageEntity@Status','zh-CN','状态','PageEntity','EntityProperty'),
 ('PageEntity@Style','en-GB','Style','PageEntity','EntityProperty'),
 ('PageEntity@Style','en-US','Style','PageEntity','EntityProperty'),
 ('PageEntity@Style','zh-CN','样式','PageEntity','EntityProperty'),
+('PageEntity@Styles','zh-CN','样式','PageEntity','EntityProperty'),
 ('PageEntity@Title','en-GB','Title','PageEntity','EntityProperty'),
 ('PageEntity@Title','en-US','Title','PageEntity','EntityProperty'),
 ('PageEntity@Title','zh-CN','标题','PageEntity','EntityProperty'),
@@ -4691,7 +4695,7 @@ CREATE TABLE `Users` (
 
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
 INSERT INTO `Users` VALUES
-('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',NULL,'2019-04-24 19:55:35.843','::1','~/images/head.png',0,'ZKEASOFT',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,'Admin',NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,'admin','Admin','2019-04-24 19:55:35.860',1,NULL,NULL,NULL);
+('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',NULL,'2019-07-31 12:09:31.137','::1','~/images/head.png',0,'ZKEASOFT',1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,'Admin',NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,'admin','Admin','2019-07-31 12:09:31.150',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `VideoWidget`;

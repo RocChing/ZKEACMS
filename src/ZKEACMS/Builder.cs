@@ -91,6 +91,8 @@ namespace ZKEACMS
             services.AddHealthChecks();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddRouting(option => option.LowercaseUrls = true);
+
             services.TryAddScoped<IApplicationContextAccessor, ApplicationContextAccessor>();
             services.TryAddScoped<IApplicationContext, CMSApplicationContext>();
             services.TryAddSingleton<IRouteProvider, RouteProvider>();
@@ -166,6 +168,7 @@ namespace ZKEACMS
             services.ConfigureMetaData<LayoutEntity, LayoutEntityMetaData>();
             services.ConfigureMetaData<MediaEntity, MediaEntityMetaData>();
             services.ConfigureMetaData<PageEntity, PageMetaData>();
+            services.ConfigureMetaData<PageAsset, PageAssetMetaData>();
             services.ConfigureMetaData<ProductEntity, ProductMetaData>();
             services.ConfigureMetaData<ProductCategory, ProductCategoryMetaData>();
             services.ConfigureMetaData<ProductImage, ProductImageMetaData>();
@@ -235,12 +238,13 @@ namespace ZKEACMS
             services.AddAuthentication(DefaultAuthorizeAttribute.DefaultAuthenticationScheme)
                 .AddCookie(DefaultAuthorizeAttribute.DefaultAuthenticationScheme, o =>
                 {
-                    o.LoginPath = new PathString("/Account/Login");
-                    o.AccessDeniedPath = new PathString("/Error/Forbidden");
+                    o.LoginPath = new PathString("/account/login");
+                    o.AccessDeniedPath = new PathString("/error/forbidden");
                 })
                 .AddCookie(CustomerAuthorizeAttribute.CustomerAuthenticationScheme, option =>
                 {
-                    option.LoginPath = new PathString("/Account/Signin");
+                    option.LoginPath = new PathString("/account/signin");
+                    option.AccessDeniedPath = new PathString("/error/forbidden");
                 });
         }
 
@@ -271,7 +275,7 @@ namespace ZKEACMS
                         constraints: route.Constraints,
                         dataTokens: route.DataTokens);
                 });
-
+                
                 endpoints.MapRazorPages();
             });
 
